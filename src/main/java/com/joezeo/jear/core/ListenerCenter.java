@@ -1,18 +1,23 @@
 package com.joezeo.jear.core;
 
+import com.joezeo.jear.exception.ExceptionHand;
 import com.joezeo.jear.exception.JearException;
+import com.joezeo.jear.exception.JearInitException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 监听器中心
+ * 是所有监听器注册管理的中心单位
+ *
  * @author ZhaoZhe
  * @email joezane.cn@gmail.com
  * @date 2020/5/27 11:45
  */
 public class ListenerCenter {
     private static volatile ListenerCenter center = null;
-    private List<AbstractListener> listeners = null;
+    private final List<AbstractListener> listeners = new ArrayList<>();
 
     public static ListenerCenter getInstance() {
         if (center == null) {
@@ -30,8 +35,14 @@ public class ListenerCenter {
      * 初始化监视器中心
      */
     public void init() {
-        // 根据@Watch注解来进行监视器注册
-        registeListener();
+        try {
+            // 根据@Listener注解来进行监视器注册
+            registeListener();
+        } catch (JearException e) {
+            ExceptionHand.handJearException(e);
+        } catch (RuntimeException e) {
+            ExceptionHand.handOtherException(e);
+        }
     }
 
 
@@ -43,15 +54,14 @@ public class ListenerCenter {
         private method
      */
     private void registeListener() {
-        if (listeners == null) {
-            listeners = new ArrayList<>();
+        if (listeners.size() == 0) {
             // 解析获取所有注解了@Listener的监听器
             List<AbstractListener> als = getByAnnotation();
             als.forEach((listener) -> {
-               listeners.add(listener);
+                listeners.add(listener);
             });
         } else {
-            throw new JearException();
+            throw new JearInitException("[WARN] <LisenerCenter> listener can just registe onece, the second registe was ignored");
         }
     }
 

@@ -6,4 +6,7 @@ package com.joezeo.jear.exception;
  * @date 2020/5/27 14:47
  */
 public class JearException extends RuntimeException {
+    public JearException(String message){
+        super(message);
+    }
 }
