@@ -1,5 +1,6 @@
-package com.joezeo.jear.core;
+package com.joezeo.jear;
 
+import com.joezeo.jear.core.AbstractListener;
 import com.joezeo.jear.exception.ExceptionHand;
 import com.joezeo.jear.exception.JearException;
 import com.joezeo.jear.exception.JearInitException;
