@@ -24,7 +24,7 @@ public class ExceptionHand {
      * 处理其他RuntimeException
      */
     public static void handOtherException(RuntimeException e) {
-        log.error(e.getMessage());
+        
     }
 
     private ExceptionHand() {

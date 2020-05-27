@@ -35,7 +35,7 @@ public class ListenerCenter {
     /**
      * 初始化监视器中心
      */
-    public void init() {
+    public ListenerCenter init() {
         try {
             // 根据@Listener注解来进行监视器注册
             registeListener();
@@ -44,6 +44,8 @@ public class ListenerCenter {
         } catch (RuntimeException e) {
             ExceptionHand.handOtherException(e);
         }
+
+        return this;
     }
 
 
@@ -55,11 +57,11 @@ public class ListenerCenter {
         private method
      */
     private void registeListener() {
-        if (listeners.size() == 0) {
+        if (this.listeners.size() == 0) {
             // 解析获取所有注解了@Listener的监听器
             List<AbstractListener> als = getByAnnotation();
             als.forEach((listener) -> {
-                listeners.add(listener);
+                this.listeners.add(listener);
             });
         } else {
             throw new JearInitException("[WARN] <LisenerCenter> listener can just registe onece, the second registe was ignored");
