@@ -1,5 +1,7 @@
 package com.joezeo.jear.core;
 
+import com.joezeo.jear.help.EventHelp;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +15,6 @@ public abstract class AbstractEvent<T> implements Serializable {
     private T data;
 
     public final void dispatch() {
-
+        EventHelp.addToEventList(this);
     }
 }

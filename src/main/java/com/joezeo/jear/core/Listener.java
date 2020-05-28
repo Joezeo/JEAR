@@ -14,7 +14,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Listener {
 
-    EventEnum eventType(); // 监听事件类型
+    int code() default -1; // 监听器监听编号，默认为-1或<=0时该监听器会监听所有对应类型的事件
+
+    EventEnum eventType() default EventEnum.NORMAL_EVENT; // 监听事件类型
 
     boolean isAsynchronous() default false; // 是否为异步执行
 

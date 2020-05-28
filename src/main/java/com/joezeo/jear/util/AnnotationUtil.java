@@ -1,5 +1,8 @@
 package com.joezeo.jear.util;
 
+import com.joezeo.jear.core.EventEnum;
+import com.joezeo.jear.core.Listener;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -14,11 +17,11 @@ import java.util.List;
  * @email joezane.cn@gmail.com
  * @date 2020/4/27 12:51
  */
-public class AnnotationUtil {
+public final class AnnotationUtil {
 
     /**
      * 通过包名，注解类型获取所有标注了该注解的Class对象list
-     *
+     * <p>
      * 基本的逻辑是通过packageName获取此包所在的文件夹地址
      * 然后获取此文件夹的File对象，从而可以获取到其的子文件和子文件夹
      * 递归获取所有符合条件的class的File对象
@@ -46,6 +49,26 @@ public class AnnotationUtil {
         return list;
     }
 
+    /**
+     * 获取处理指定事件类型的监听器
+     * <p>
+     * 比如获取所有处理普通事件的监听器...
+     *
+     * @param listenerList
+     * @param eventType
+     * @return
+     */
+    public static List<Class<?>> getTargetListener(List<Class<?>> listenerList, EventEnum eventType) {
+        List<Class<?>> target = new ArrayList<>();
+        for (Class<?> clazz : listenerList) {
+            Listener listener = clazz.getAnnotation(Listener.class);
+            if (listener.eventType() == eventType) {
+                target.add(clazz);
+            }
+        }
+        return target;
+    }
+
     private static void addClassByAnnotation(List<Class<?>> list, String packageName, String clazzPath, Class<? extends Annotation> annotationClazz) {
         // 获取该文件目录下所有类和文件夹的File对象
         File[] files = new File(clazzPath).listFiles((file) -> {
@@ -58,7 +81,7 @@ public class AnnotationUtil {
                 String name = file.getName().split("\\.")[0];
                 String fullName = packageName + "." + name;
                 try {
-                    Class<?> targetClazz = Class.forName(fullName);
+                    Class<?> targetClazz = Thread.currentThread().getContextClassLoader().loadClass(fullName);
                     Annotation annotation = targetClazz.getAnnotation(annotationClazz);
                     if (annotation != null) {
                         list.add(targetClazz);

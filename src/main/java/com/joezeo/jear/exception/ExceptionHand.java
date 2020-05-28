@@ -1,7 +1,6 @@
 package com.joezeo.jear.exception;
 
 import com.joezeo.jear.exception.strategy.ExceptionStrategyEnum;
-import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 
@@ -14,7 +13,6 @@ import java.lang.reflect.Field;
  * @email joezane.cn@gmail.com
  * @date 2020/5/27 16:20
  */
-@Slf4j
 public class ExceptionHand {
     /**
      * 处理JearException其子类异常
@@ -33,6 +31,5 @@ public class ExceptionHand {
     }
 
     private ExceptionHand() {
-
     }
 }
