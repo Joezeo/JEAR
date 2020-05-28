@@ -1,6 +1,9 @@
 package com.joezeo.jear.exception;
 
+import com.joezeo.jear.exception.strategy.ExceptionStrategyEnum;
 import lombok.extern.slf4j.Slf4j;
+
+import java.lang.reflect.Field;
 
 /**
  * JEAR框架异常处理总类
@@ -14,17 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExceptionHand {
     /**
-     * 处理JearException及其子类异常
+     * 处理JearException其子类异常
      */
     public static void handJearException(JearException e) {
-
-    }
-
-    /**
-     * 处理其他RuntimeException
-     */
-    public static void handOtherException(RuntimeException e) {
-        
+        Class<? extends JearException> clazz = e.getClass();
+        try {
+            Field strategyField = clazz.getField("strategy");
+            ExceptionStrategyEnum strategy = (ExceptionStrategyEnum) strategyField.get(e);
+            strategy.hand(e);
+        } catch (NoSuchFieldException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private ExceptionHand() {
