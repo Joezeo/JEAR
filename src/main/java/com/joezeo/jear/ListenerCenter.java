@@ -120,13 +120,16 @@ public final class ListenerCenter {
                 }
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
-                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "");
+                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "反射获取class对象的构造方法失败");
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
+                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "反射获取class对象的构造方法失败，参数异常");
             } catch (InstantiationException e) {
                 e.printStackTrace();
+                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "通过反射创建对象失败");
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
+                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "反射执行任务失败");
             }
         });
     }

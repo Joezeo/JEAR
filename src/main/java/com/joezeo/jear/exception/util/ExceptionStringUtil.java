@@ -15,8 +15,10 @@ public class ExceptionStringUtil {
      * @return
      */
     public static String generateExceptionAffix(ExceptionTypeEnum type){
+        StackTraceElement element = Thread.currentThread().getStackTrace()[2];
         StringBuilder sb = new StringBuilder();
         sb.append(type.getStr());
+        sb.append(" <").append(element.getClassName()).append(":").append(element.getMethodName()).append("> ");
         return sb.toString();
     }
 }

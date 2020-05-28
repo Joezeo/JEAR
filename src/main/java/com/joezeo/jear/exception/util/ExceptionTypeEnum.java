@@ -6,9 +6,9 @@ package com.joezeo.jear.exception.util;
  * @date 2020/5/28 17:29
  */
 public enum  ExceptionTypeEnum {
-    ERROR("[ERROR] "),
-    WARN("[WARN] "),
-    INFO("[INFO] ")
+    ERROR("[ERROR]"),
+    WARN("[WARN]"),
+    INFO("[INFO]")
     ;
     private String str;
 
