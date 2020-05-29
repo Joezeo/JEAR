@@ -5,6 +5,7 @@ import com.joezeo.jear.core.EventEnum;
 import com.joezeo.jear.core.Listener;
 import com.joezeo.jear.exception.ExceptionHand;
 import com.joezeo.jear.exception.JearException;
+import com.joezeo.jear.exception.JearInitException;
 import com.joezeo.jear.exception.JearSystemException;
 import com.joezeo.jear.exception.util.ExceptionStringUtil;
 import com.joezeo.jear.exception.util.ExceptionTypeEnum;
@@ -77,14 +78,17 @@ public final class ListenerCenter {
         return center;
     }
 
+    public List<AbstractListener> getNormalListeners() {
+        return this.normalListeners;
+    }
+
+    public List<AbstractListener> getRemoteListeners() {
+        return this.remoteListeners;
+    }
 
     /*
         private method
      */
-    private List<AbstractListener> getNormalListeners() {
-        return this.normalListeners;
-    }
-
     private void registeNormalListener(String packageName) {
         // 解析获取所有注解了@Listener的监听器，并且处理事件为NORMAL_EVENT的监听器
         registeByAnnotationAndType(packageName, EventEnum.NORMAL_EVENT);
@@ -104,32 +108,37 @@ public final class ListenerCenter {
         List<Class<?>> targetListeners = AnnotationUtil.getTargetListener(this.clazzes, eventType);
 
         targetListeners.forEach((clazz) -> {
-            Class<? extends AbstractListener> lisClass = clazz.asSubclass(AbstractListener.class);
-            try {
-                // 获取Listener的空构造方法，构造Listener对象
-                Constructor<? extends AbstractListener> constructor = lisClass.getDeclaredConstructor(null);
-                AbstractListener abstractListener = constructor.newInstance(null);
+            if (AbstractListener.class.equals(clazz.getSuperclass())){
+                Class<? extends AbstractListener> lisClass = clazz.asSubclass(AbstractListener.class);
+                try {
+                    // 获取Listener的空构造方法，构造Listener对象
+                    Constructor<? extends AbstractListener> constructor = lisClass.getDeclaredConstructor(null);
+                    AbstractListener abstractListener = constructor.newInstance(null);
 
-                switch (eventType.getIndex()){
-                    case EventEnum.NORMAL_CODE:
-                        normalListeners.add(abstractListener);
-                        break;
-                    case EventEnum.REMOTE_CODE:
-                        remoteListeners.add(abstractListener);
-                        break;
+                    switch (eventType.getIndex()){
+                        case EventEnum.NORMAL_CODE:
+                            normalListeners.add(abstractListener);
+                            break;
+                        case EventEnum.REMOTE_CODE:
+                            remoteListeners.add(abstractListener);
+                            break;
+                    }
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                    throw new JearSystemException("反射获取class对象的构造方法失败", ExceptionTypeEnum.ERROR);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    throw new JearSystemException("反射获取class对象的构造方法失败，参数异常", ExceptionTypeEnum.ERROR);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                    throw new JearSystemException("通过反射创建对象失败", ExceptionTypeEnum.ERROR);
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                    throw new JearSystemException("反射执行任务失败", ExceptionTypeEnum.ERROR);
                 }
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "反射获取class对象的构造方法失败");
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "反射获取class对象的构造方法失败，参数异常");
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "通过反射创建对象失败");
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-                throw new JearSystemException(ExceptionStringUtil.generateExceptionAffix(ExceptionTypeEnum.ERROR) + "反射执行任务失败");
+            } else { // 标注了@listener的没有继承AbstractListener
+                ExceptionHand.handJearException(new JearInitException(clazz.getName()
+                        + "注解了@Listener，未继承AbstractListener，注册至监听器中心失败", ExceptionTypeEnum.WARN));
             }
         });
     }

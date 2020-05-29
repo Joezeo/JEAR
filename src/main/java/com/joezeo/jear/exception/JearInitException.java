@@ -1,6 +1,7 @@
 package com.joezeo.jear.exception;
 
 import com.joezeo.jear.exception.strategy.ExceptionStrategyEnum;
+import com.joezeo.jear.exception.util.ExceptionTypeEnum;
 
 /**
  *
@@ -12,8 +13,8 @@ public class JearInitException extends JearException {
 
     public static final ExceptionStrategyEnum strategy = ExceptionStrategyEnum.INIT_EXCEPTION_STRATEGY;
 
-    public JearInitException(String message) {
-        super(message);
+    public JearInitException(String message, ExceptionTypeEnum type) {
+        super(message, type);
     }
 
 }

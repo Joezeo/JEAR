@@ -9,5 +9,5 @@ package com.joezeo.jear.core;
  * @date 2020/5/25 16:56
  */
 public abstract class AbstractListener {
-    abstract void hand();
+    protected abstract void hand();
 }

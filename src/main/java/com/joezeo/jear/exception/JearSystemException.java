@@ -1,6 +1,7 @@
 package com.joezeo.jear.exception;
 
 import com.joezeo.jear.exception.strategy.ExceptionStrategyEnum;
+import com.joezeo.jear.exception.util.ExceptionTypeEnum;
 
 /**
  * java RuntimeException相关异常使用此类抛出
@@ -13,7 +14,7 @@ public class JearSystemException extends JearException{
 
     public static final ExceptionStrategyEnum strategy = ExceptionStrategyEnum.SYSTEM_EXCEPTION_STRATEGY;
 
-    public JearSystemException(String message) {
-        super(message);
+    public JearSystemException(String message, ExceptionTypeEnum type) {
+        super(message, type);
     }
 }

@@ -1,6 +1,7 @@
 package com.joezeo.jear.util;
 
 import com.joezeo.jear.exception.JearInitException;
+import com.joezeo.jear.exception.util.ExceptionTypeEnum;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -19,7 +20,7 @@ public final class OneceCheck {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
             // 调用栈的0、1、2分别为 getStackTrace()、check()、以及调用check()的方法
             StackTraceElement element = stackTrace[2];
-            throw new JearInitException("[WARN] <" + element.getClassName() + ":" + element.getMethodName() + "> 多次调用，已忽略多次调用部分");
+            throw new JearInitException("多次调用，已忽略多次调用部分", ExceptionTypeEnum.WARN);
         }
         hasChecked.set(true);
     }

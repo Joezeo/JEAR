@@ -8,7 +8,6 @@ package com.joezeo.jear.exception.util;
 public enum  ExceptionTypeEnum {
     ERROR("[ERROR]"),
     WARN("[WARN]"),
-    INFO("[INFO]")
     ;
     private String str;
 

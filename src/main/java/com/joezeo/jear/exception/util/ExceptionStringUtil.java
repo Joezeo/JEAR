@@ -14,11 +14,10 @@ public class ExceptionStringUtil {
      * 格式[ERROR/INFO/WARN] <className:methodName>
      * @return
      */
-    public static String generateExceptionAffix(ExceptionTypeEnum type){
-        StackTraceElement element = Thread.currentThread().getStackTrace()[2];
+    public static String generateExceptionAffix(ExceptionTypeEnum type, String className, String methodName){
         StringBuilder sb = new StringBuilder();
         sb.append(type.getStr());
-        sb.append(" <").append(element.getClassName()).append(":").append(element.getMethodName()).append("> ");
+        sb.append(" <").append(className).append(":").append(methodName).append("> ");
         return sb.toString();
     }
 }
