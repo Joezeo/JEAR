@@ -1,6 +1,11 @@
 package com.joezeo.jear.core.help;
 
+import com.joezeo.jear.ListenerCenter;
 import com.joezeo.jear.core.AbstractEvent;
+import com.joezeo.jear.core.annotation.NormalEvent;
+import com.joezeo.jear.core.annotation.RemoteEvent;
+import com.joezeo.jear.exception.JearInitException;
+import com.joezeo.jear.exception.util.ExceptionTypeEnum;
 
 /**
  * @author ZhaoZhe
@@ -9,7 +14,16 @@ import com.joezeo.jear.core.AbstractEvent;
  */
 public class EventHelp {
     public static void addToEventList(AbstractEvent<?> event) {
+        ListenerCenter center = ListenerCenter.getCenter();
+        if (center == null) {
+            throw new JearInitException("ListenerCenter尚未初始化", ExceptionTypeEnum.ERROR);
+        }
+        Class<? extends AbstractEvent> clazz = event.getClass();
+        NormalEvent normal = clazz.getAnnotation(NormalEvent.class);
+        RemoteEvent remote = clazz.getAnnotation(RemoteEvent.class);
+        if (normal != null) {
 
+        }
     }
 
     private EventHelp() {

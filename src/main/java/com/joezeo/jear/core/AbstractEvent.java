@@ -1,6 +1,8 @@
 package com.joezeo.jear.core;
 
 import com.joezeo.jear.core.help.EventHelp;
+import com.joezeo.jear.exception.ExceptionHand;
+import com.joezeo.jear.exception.JearException;
 
 import java.io.Serializable;
 
@@ -15,6 +17,10 @@ public abstract class AbstractEvent<T> implements Serializable {
     private T data;
 
     public final void dispatch() {
-        EventHelp.addToEventList(this);
+        try {
+            EventHelp.addToEventList(this);
+        } catch (JearException e){
+            ExceptionHand.handJearException(e);
+        }
     }
 }
