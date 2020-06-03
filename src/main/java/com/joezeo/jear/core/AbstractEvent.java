@@ -1,6 +1,6 @@
 package com.joezeo.jear.core;
 
-import com.joezeo.jear.help.EventHelp;
+import com.joezeo.jear.core.help.EventHelp;
 
 import java.io.Serializable;
 

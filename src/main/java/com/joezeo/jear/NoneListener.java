@@ -1,6 +1,6 @@
 package com.joezeo.jear;
 
-import com.joezeo.jear.core.Listener;
+import com.joezeo.jear.core.annotation.Listener;
 
 /**
  * @author ZhaoZhe

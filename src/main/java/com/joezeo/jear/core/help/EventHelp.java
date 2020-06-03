@@ -1,4 +1,4 @@
-package com.joezeo.jear.help;
+package com.joezeo.jear.core.help;
 
 import com.joezeo.jear.core.AbstractEvent;
 

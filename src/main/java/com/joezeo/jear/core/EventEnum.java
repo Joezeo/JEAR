@@ -1,5 +1,8 @@
 package com.joezeo.jear.core;
 
+import com.joezeo.jear.core.annotation.NormalEvent;
+import com.joezeo.jear.core.annotation.RemoteEvent;
+
 import java.lang.annotation.Annotation;
 
 /**

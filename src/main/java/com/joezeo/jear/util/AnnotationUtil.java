@@ -1,7 +1,7 @@
 package com.joezeo.jear.util;
 
 import com.joezeo.jear.core.EventEnum;
-import com.joezeo.jear.core.Listener;
+import com.joezeo.jear.core.annotation.Listener;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,6 @@
-package com.joezeo.jear.core;
+package com.joezeo.jear.core.annotation;
+
+import com.joezeo.jear.core.EventEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
