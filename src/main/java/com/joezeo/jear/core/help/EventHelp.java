@@ -18,11 +18,12 @@ public class EventHelp {
         if (center == null) {
             throw new JearInitException("ListenerCenter尚未初始化", ExceptionTypeEnum.ERROR);
         }
+
         Class<? extends AbstractEvent> clazz = event.getClass();
         NormalEvent normal = clazz.getAnnotation(NormalEvent.class);
         RemoteEvent remote = clazz.getAnnotation(RemoteEvent.class);
-        if (normal != null) {
-
+        if (normal != null && remote != null) {
+            throw new JearInitException(clazz.getName() + "只能注解一个监听器", ExceptionTypeEnum.ERROR);
         }
     }
 
