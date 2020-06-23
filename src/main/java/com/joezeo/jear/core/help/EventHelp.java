@@ -23,7 +23,7 @@ public class EventHelp {
         NormalEvent normal = clazz.getAnnotation(NormalEvent.class);
         RemoteEvent remote = clazz.getAnnotation(RemoteEvent.class);
         if (normal != null && remote != null) {
-            throw new JearInitException(clazz.getName() + "只能注解一个监听器", ExceptionTypeEnum.ERROR);
+            throw new JearInitException(clazz.getName() + "只能注解一种事件", ExceptionTypeEnum.ERROR);
         }
     }
 
