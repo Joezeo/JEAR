@@ -40,7 +40,7 @@ public final class ListenerCenter {
     /**
      * 初始化监视器中心、默认不开启远程事件监听
      *
-     * @param packageName 监听器中心管理的监听器所在的包名，只会注册在此包下的监视器
+     * @param packageName 监听器中心管理的监听器所在的包名，只会注册在此包下的监听器
      */
     public static ListenerCenter init(String packageName) {
         try {

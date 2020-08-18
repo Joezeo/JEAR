@@ -16,12 +16,11 @@ public final class OneceCheck {
     private final AtomicBoolean hasChecked = new AtomicBoolean(false);
 
     public void check() {
-        if (hasChecked.get()) {
+        if (hasChecked.compareAndSet(false, true)) {
             StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
             // 调用栈的0、1、2分别为 getStackTrace()、check()、以及调用check()的方法
             StackTraceElement element = stackTrace[2];
             throw new JearInitException("多次调用，已忽略多次调用部分", ExceptionTypeEnum.WARN);
         }
-        hasChecked.set(true);
     }
 }

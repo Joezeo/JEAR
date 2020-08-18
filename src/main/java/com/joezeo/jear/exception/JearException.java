@@ -1,6 +1,7 @@
 package com.joezeo.jear.exception;
 
 import com.joezeo.jear.exception.util.ExceptionTypeEnum;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * JEAR 框架异常运行时基类
