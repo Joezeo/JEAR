@@ -3,6 +3,9 @@ package com.joezeo.jear;
 import com.joezeo.jear.core.AbstractListener;
 import com.joezeo.jear.core.EventEnum;
 import com.joezeo.jear.core.annotation.Listener;
+import com.joezeo.jear.core.cell.ListenerCell;
+import com.joezeo.jear.core.cell.NormalListenerCell;
+import com.joezeo.jear.core.cell.RemoteListenerCell;
 import com.joezeo.jear.exception.ExceptionHand;
 import com.joezeo.jear.exception.JearException;
 import com.joezeo.jear.exception.JearInitException;
@@ -28,10 +31,10 @@ public final class ListenerCenter {
     private static volatile ListenerCenter center = null;
     private static OneceCheck oneceCheck = new OneceCheck();
 
-    private List<AbstractListener> normalListeners = new ArrayList<>();
-    private List<AbstractListener> remoteListeners = new ArrayList<>();
+    private static ListenerCell normalCell = new NormalListenerCell();
+    private static ListenerCell remoteCell = new RemoteListenerCell();
 
-    private List<Class<?>> clazzes; // 所有注解了@Listener的类class对象
+    private static List<Class<?>> clazzes; // 所有注解了@Listener的类class对象
 
     public static ListenerCenter getCenter() {
         return center;
@@ -77,14 +80,6 @@ public final class ListenerCenter {
         return center;
     }
 
-    public List<AbstractListener> getNormalListeners() {
-        return this.normalListeners;
-    }
-
-    public List<AbstractListener> getRemoteListeners() {
-        return this.remoteListeners;
-    }
-
     /*
         private method
      */
@@ -116,10 +111,10 @@ public final class ListenerCenter {
 
                     switch (eventType.getIndex()){
                         case EventEnum.NORMAL_CODE:
-                            normalListeners.add(abstractListener);
+                            normalCell.registeListener(abstractListener);
                             break;
                         case EventEnum.REMOTE_CODE:
-                            remoteListeners.add(abstractListener);
+                            remoteCell.registeListener(abstractListener);
                             break;
                     }
                 } catch (NoSuchMethodException e) {

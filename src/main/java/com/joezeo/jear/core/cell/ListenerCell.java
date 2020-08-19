@@ -12,5 +12,8 @@ import java.util.List;
  * @date 2020/6/3 16:14
  */
 public abstract class ListenerCell {
+
     public abstract List<AbstractListener> getListeners();
+
+    public abstract void registeListener(AbstractListener listener);
 }
